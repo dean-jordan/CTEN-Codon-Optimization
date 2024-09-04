@@ -1,9 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
-import torch.utils.data as data
 import math
-import copy
 from additional import activation
 
 class EncoderAttention(nn.Module):
@@ -48,3 +45,16 @@ class EncoderAttention(nn.Module):
         # Changing Inputs to num_heads for Multi-Head Attention
         batch_size, _, sequence_length, d_k = x.size()
         return x.transpose(1, 2).contiguous().view(batch_size, sequence_length, self.model)
+    
+    def forward(self, Q, K, V, mask=None):
+        # Splitting Heads to Complete Attention Mechanism
+        # Applying Linear Transformations to Input
+        Q = self.split_heads(self.query(Q))
+        K = self.split_heads(self.key(K))
+        V = self.split_heads(self.value(V))
+
+        # Scaled Dot-Product Attention
+        attention_output = self.dot_product_attention(Q, K, V, mask)
+
+        # Heads are Combined and Output Transformations Applied
+        output = self.output(self.combine_heads(attention_output))
