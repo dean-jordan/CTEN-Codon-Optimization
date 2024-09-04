@@ -1,7 +1,15 @@
-import torch
 import torch.nn as nn
-import torch.optim as optim
-import torch.utils.data as data
-import math
-import copy
+from additional import activation
 
+class EncoderFeedForwardNetwork(nn.Module):
+    def __init__(self, model, ff):
+        super(EncoderFeedForwardNetwork, self).__init__()
+        self.recurrent1 = nn.Linear(model, ff)
+        self.recurrent2 = nn.Linear(ff, model)
+        self.relu = activation.ReLU()
+
+    def forward(self, x):
+        return self.recurrent2(
+            self.relu(
+                self.recurrent1(x)
+                ))
