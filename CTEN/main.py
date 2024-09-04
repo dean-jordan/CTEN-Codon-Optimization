@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from encoder import feedforward
+from additional import positional_encoding
 from encoder import encoder
 from decoder import decoder
 
@@ -14,7 +14,7 @@ class TransformerNetwork(nn.Module):
         # Input Embeddings Using nn.Embedding Layer
         self.encoder_embeddings = nn.Embedding(source_vocab_size, model)
         self.decoder_embeddings = nn.Embedding(target_vocab_size, model)
-        self.positional_encoding = feedforward.PositionalEncoding(model, max_sequence_length)
+        self.positional_encoding = positional_encoding.PositionalEncoding(model, max_sequence_length)
 
         # Create Ensemble of Layers for Each Transformer Module
         self.encoder_layers = nn.ModuleList([encoder.EncoderModule(model, num_heads, ff, dropout) for _ in range(num_layers)])
@@ -43,8 +43,8 @@ class TransformerNetwork(nn.Module):
 
         # Embedding the Source and Target Masks
         source_mask, target_mask = self.generate_mask(source, target)
-        source_embedded = self.dropout(feedforward.PositionalEncoding(self.encoder_embeddings(source)))
-        target_embedded = self.dropout(feedforward.PositionalEncoding(self.decoder_embeddings(target)))
+        source_embedded = self.dropout(positional_encoding.PositionalEncoding(self.encoder_embeddings(source)))
+        target_embedded = self.dropout(positional_encoding.PositionalEncoding(self.decoder_embeddings(target)))
 
         # Applying Embeddings for Source
         encoder_output = source_embedded
