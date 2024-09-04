@@ -23,3 +23,12 @@ class EncoderModule(nn.Module):
 
         # Implementing Dropout Normalization
         self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x, mask):
+        # Finalizing Attention Output and Applying Normalization
+        attention_output = self.attention(x, x, x, mask)
+        x = self.normalization1(x + self.dropout(attention_output))
+
+        # Finalizing Feed-Forward Network Output and Applying Normalization
+        ff_output = self.feed_forward_network(x)
+        x = self.normalization2(x + self.dropout(ff_output))
