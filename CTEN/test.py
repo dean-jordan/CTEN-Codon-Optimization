@@ -5,5 +5,3 @@ import torch.utils.data as data
 import math
 import copy
 
-source_data = 0
-target_data = 0
