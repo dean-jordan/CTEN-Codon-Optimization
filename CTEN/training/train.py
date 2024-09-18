@@ -8,19 +8,19 @@ source_vocab_size = 5000
 target_vocab_size = 5000
 
 # Dimensionality of Model Embeddings
-model = 512
+model = 2048
 
 # Number of Attention Heads in Multi-Head Attention
-num_heads = 8
+num_heads = 16
 
 # Layers in Both Encoder and Decoder
-num_layers = 6
+num_layers = 16
 
 # Dimensionality of Feed-Forward Network
-ff = 2048
+ff = 4096
 
 # Maximum Sequence Length for Positional Encoding
-max_sequence_length = 100
+max_sequence_length = 20000
 
 # Dropout Regularization Rate
 dropout = 0.1
@@ -31,7 +31,7 @@ codon_optimization_transformer = main.TransformerNetwork(source_vocab_size, targ
 lr = 0.0001
 betas = (0.9, 0.98)
 eps = 1e-9
-epochs = 100
+epochs = 250
 
 # Loss Function and Optimizer Setup
 criterion = loss.CrossEntropyLoss(ignore_index=0)

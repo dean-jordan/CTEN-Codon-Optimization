@@ -6,10 +6,27 @@ class EncoderFeedForwardNetwork(nn.Module):
         super(EncoderFeedForwardNetwork, self).__init__()
         self.recurrent1 = nn.Linear(model, ff)
         self.recurrent2 = nn.Linear(ff, model)
+        self.recurrent3 = nn.Linear(ff, model)
+        self.recurrent4 = nn.Linear(ff, model)
+        self.recurrent5 = nn.Linear(ff, model)
         self.relu = activation.ReLU()
 
     def forward(self, x):
-        return self.recurrent2(
+        return self.recurrent5(
             self.relu(
-                self.recurrent1(x)
+                self.recurrent4(
+                    self.relu(
+                        self.recurrent3(
+                            self.relu(
+                                self.recurrent2(
+                                    self.relu(
+                                        self.recurrent1(
+                                            self.relu(x)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
                 ))

@@ -1,7 +1,6 @@
 import torch.nn as nn
 import torch
 import math
-from additional import activation
 
 class PositionalEncoding(nn.Module):
     # Creates Class to Input Position Information into Each Token
